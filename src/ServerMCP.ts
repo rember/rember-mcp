@@ -9,38 +9,44 @@ import type { z, ZodRawShape, ZodTypeAny } from "zod"
 
 // #:
 
+// TODO: The MCP SDK does not support Standard Schema just yet (which would
+// allow us to use Effect Schema).
+// Track https://github.com/modelcontextprotocol/typescript-sdk/issues/164
+export interface ToolServerMCP<Input extends ZodRawShape, E, R> {
+  description: string
+  schemaInput: Input
+  effect: (args: z.objectOutputType<Input, ZodTypeAny>) => Effect.Effect<CallToolResult, E, R>
+}
+
+export type ToolServerMCPAny = ToolServerMCP<any, any, any>
+export type ToolsServerMCPAny = ReadonlyRecord<string, ToolServerMCPAny>
+
+// #:
+
 export class ServerMCP extends Context.Tag("ServerMCP")<
   ServerMCP,
   Effect.Effect.Success<ReturnType<typeof makeServerMCP>>
 >() {
   static layer<ToolsServerMCP extends ToolsServerMCPAny>(
     { name, tools, version }: { name: string; version: string; tools: ToolsServerMCP }
-  ): Layer.Layer<ServerMCP> {
-    return Layer.scoped(ServerMCP, makeServerMCP({ name, version, tools }))
+  ): Layer.Layer<ServerMCP, never, never>
+  static layer<ToolsServerMCP extends ToolsServerMCPAny, R>(
+    { name, tools, version }: { name: string; version: string; tools: ToolsServerMCP }
+  ): Layer.Layer<ServerMCP, never, R> {
+    return Layer.scoped(ServerMCP, makeServerMCP<ToolsServerMCP, R>({ name, version, tools }))
   }
 }
 
-// TODO: The MCP SDK does not support Standard Schema just yet (which would
-// allow us to use Effect Schema).
-// Track https://github.com/modelcontextprotocol/typescript-sdk/issues/164
-export interface ToolServerMCP<Args extends ZodRawShape> {
-  description: string
-  schemaParams: Args
-  effect: (args: z.objectOutputType<Args, ZodTypeAny>) => Effect.Effect<CallToolResult>
-}
-export type ToolServerMCPAny = ToolServerMCP<any>
-export type ToolsServerMCPAny = ReadonlyRecord<string, ToolServerMCPAny>
-
 // #:
 
-export const makeServerMCP = <ToolsServerMCP extends ToolsServerMCPAny>(
+export const makeServerMCP = <ToolsServerMCP extends ToolsServerMCPAny, R>(
   { name, tools, version }: { name: string; version: string; tools: ToolsServerMCP }
 ) =>
   Effect.gen(function*() {
     const server = yield* Effect.sync(() => new McpServer({ name, version }))
     const transport = yield* Effect.sync(() => new StdioServerTransport())
 
-    const runtime = yield* Effect.runtime()
+    const runtime = yield* Effect.runtime<R>()
 
     // ##: Register tools
 
@@ -49,7 +55,7 @@ export const makeServerMCP = <ToolsServerMCP extends ToolsServerMCPAny>(
         server.tool(
           name,
           tool.description,
-          tool.schemaParams,
+          tool.schemaInput,
           (args, { signal }) =>
             pipe(
               tool.effect(args),
