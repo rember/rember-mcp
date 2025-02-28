@@ -1,0 +1,30 @@
+---
+description: General rules
+globs: 
+alwaysApply: true
+---
+
+
+## General
+
+When you are told to do something, always ask questions to understand and give a plan first about what you are going to do. Don't give implementation directly.
+
+When you make an assumption about what is wrong, execute some commands and verify that assumption is correct. Examples: Always check the current values or resources before executing update command for gcloud. Always check API with curl command, so you know what is wrong and what needs to be done instead of directly changing the code.
+
+Never remove or update the code that is not part of the task you are told to do. Example: Don't remove certain comment lines when you are specifically asked to do. Don't refactor existing code when you are directly told to do. Don't change the UI when you are refactoring the logic.
+
+We value consistency in the codebase. Adhere to shared coding standards, style guides, and best practices across the project. Write code that is easy for any team member to read, understand, and modify, ensuring consistent naming conventions, formatting, and patterns. Avoid personal preferences that deviate from the team's agreed standards, and prioritize clarity over cleverness. Aim for simplicity and predictability so that the codebase feels cohesive, regardless of who wrote it, enabling smoother collaboration and long-term maintainability.
+
+## Naming conventions
+
+Follow a noun-first approach for variables and constants, for example `idChat` instead of `chatId`
+
+Follow a verb-fist approach for functions, for example `computeContentFromTree` or `fetchDataUser`. Notice that we still follow the noun-first approach, it's `fetchDataUser` instead of `fetchUserData`.
+
+## Backups, temporary files, and other files
+
+We use the `bak` prefix/suffix for backup files and folders, ignore those files and folder unless explicitly asked. 
+
+We use the `tmp` prefix/suffix for temporary files and folders, ignore those files and folder unless explicitly asked. 
+
+We use the `zxtra` prefix/suffix for extra files and folders, which maybe we are not sure we'll use or that are a work-in-progress, you should generally ignore those as well (`zxtra` is `extra` but starting with the `z`, so that the files and folder appear last in a alphabetically sorted list).

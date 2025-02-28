@@ -1,0 +1,8 @@
+---
+description: Links to resources documenting the libraries we are using
+globs: *.ts
+alwaysApply: false
+---
+## Libraries
+
+- Model Context Protocol (MCP): documentation is [mcp-docs.txt](mdc:context/mcp-docs.txt) and TypeScript reference is [mcp-readme-typescript-sdk.txt](mdc:context/mcp-readme-typescript-sdk.txt)

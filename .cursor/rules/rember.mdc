@@ -1,0 +1,46 @@
+---
+description: Overview of Rember as described in our homepage, including it's features and FAQs
+globs: 
+alwaysApply: true
+---
+
+# Rember
+
+> **Enjoy creating and reviewing flashcards**
+
+Rember is a simple yet powerful spaced repetition system designed to help you remember more.
+
+## Features
+
+- **Generate Cards with AI**: Manually creating flashcards is tedious and time-consuming. Rember uses AI to create cards automatically from your content. Easily tweak them in our editor to make them just right.
+
+- **Spaced Repetition**: Rember optimizes your learning with FSRS, the most advanced review scheduling algorithm. In Rember you can pause, snooze, or undo reviews, and it even includes a load balancer.
+
+- **No Setup Needed**: Rember's settings are carefully designed with sane defaults. Start reviewing your cards immediately — no complicated setup needed.
+
+- **Sync Across Devices**: Rember syncs automatically across desktop and mobile, so you can seamlessly pick up where you left off, anytime, anywhere.
+- **Rember is Fast**: No spinners, no delays. Built for speed and responsiveness, Rember lets you focus on learning without distractions.
+- **Stay Motivated with Streaks**: Track your progress and build a habit. Your streak helps you stay motivated to review your cards consistently.
+- **Powerful Cards Editor**: Rember's editor lets you efficiently work on multiple cards with intuitive keyboard shortcuts, rich text, and equation support. Edit, navigate, and undo changes with ease.
+- **Organize and Prioritize with Decks**: Group cards into decks to organize and prioritize your reviews. Perfect for preparing for exams or mastering specific topics.
+
+## FAQs
+
+- *What is spaced repetition?* Spaced repetition is a learning technique that enhances memory retention by reviewing information at strategically increasing intervals. It leverages two key psychological principles: the forgetting curve, which shows how memories fade over time, and the spacing effect, which demonstrates that spreading reviews strengthens long-term retention. By estimating when memories fade, spaced repetition schedules reviews to help you remember efficiently.
+- *What is active recall?* Active recall is a study technique where you actively retrieve information from memory instead of passively reviewing it. For example, asking yourself, "What is spaced repetition?" and answering without looking strengthens your memory far more effectively than simply re-reading the answer.
+- *What is a "remb" in Rember?* A remb is the basic unit in Rember, made of the content you want to remember and some cards to help you practice and maintain that memory over time. Rembs are powerful because they allow you to group related cards together and add additional information like the sources of the information you are trying to remember.
+- *Is Rember free?* Rember is currently free to use. Our goal is to make flashcard learning so enjoyable that more people can experience its proven benefits. As we add advanced features and AI capabilities, we'll introduce premium options, while keeping core functionality free. Join us early and help shape Rember.
+- *Is my content private or public?* Your content is private by default and will remain so. You can choose to share it via a link, but your review data will always stay private.
+- *What browsers does Rember support?* Rember works on all modern browsers, including mobile. The card editor is optimized for desktop Chrome-based browsers (Chrome, Arc, Microsoft Edge). We recommend creating and editing cards on desktop and reviewing them on either desktop or mobile.
+- *Does Rember have a mobile app?* Rember is currently a PWA (progressive web app) that works on both desktop and mobile, even when you are offline. You can also add an icon to your home screen on Android and iOS for faster access. Once we reach maturity with the PWA, we will likely introduce mobile apps.
+- *Can I generate cards with AI from PDFs or websites?* Not yet, but we're planning to add support for creating rembs and cards from sources like PDFs and websites, and we're exploring a Chrome Extension. Share your ideal workflow with us — we'd love your input as we shape these features.
+- *What types of cards can I create in Rember?* Rember supports question-answer cards, multiple choices cards, and text occlusions (fill-in-the-blank). We're also planning to add image occlusions and special card types, such as those for practicing chess moves.
+- *What is the difference between Rember and Anki?* Anki, and SuperMemo before it, demonstrated the power of digital flashcards but can feel overwhelming due to their complex interfaces. Rember combines spaced repetition and active recall with a simple, intuitive design, making it easier to focus on learning without being slowed down by the tool itself.
+- *Can you import/export cards and review data from/to Anki?* Rember currently supports exporting cards to Anki, but not review data. In the future, we plan to add support for importing Anki cards and review data, making the transition smoother.
+
+## Primitives
+
+- **Card**: A spaced repetition flashcard used to test the user on a concept, Rember is flexible and supports multiple types of flashcards, like question-answer (QA), multiple-choice (MC), text occlusion, image occlusion, a card for practicing chess moves, and eventually we'll add more.
+- **Remb**: A self-contained and atomic note representing concept the user cares about, along with cards about testing the user on the note. The Remb is the primary unit in Rember, as tweets are for Twitter and posts are for Instagram. The user edits rembs as a single unit using the Remb editor, Rembs can be shared with other users. We are moving towards automating cards creation with AI.
+- **Deck**: A ordered list of rembs. Decks can be used to organize rembs. Each remb can belong to multiple decks, they work like tags in GMail. We support filtered review session, to only review the flashcards of a particular deck.
+- **Crop**: A concept used internally in the Remb editor and in the Remb json represenation, it represents a group of cards that are edited together. For instance, the QA crop edits a single card, the text occlusion crop edits one card for each occlusion.
