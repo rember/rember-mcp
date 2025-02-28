@@ -23,7 +23,7 @@ const command = Command.make("rember-mcp", { apiKey }, ({ apiKey }) =>
     const rember = yield* Rember
 
     const layerServerMCP = ServerMCP.layer({
-      name: "rember-mcp",
+      name: "rember",
       version: "0.0.0",
       tools: {
         "generate-cards-and-create-rembs": {
