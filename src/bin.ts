@@ -3,7 +3,7 @@
 import { Command, Options } from "@effect/cli"
 import * as NodeContext from "@effect/platform-node/NodeContext"
 import * as NodeRuntime from "@effect/platform-node/NodeRuntime"
-import { Cause, Layer, pipe, Redacted, Schema } from "effect"
+import { Array, Cause, Layer, pipe, Redacted, Schema } from "effect"
 import * as Effect from "effect/Effect"
 import { z } from "zod"
 import { layerLogger } from "./Logger.js"
@@ -27,25 +27,50 @@ const command = Command.make("rember-mcp", { apiKey }, ({ apiKey }) =>
       version: "0.0.0",
       tools: {
         "generate-cards-and-create-rembs": {
-          description:
-            "Generate spaced-repetition flashcards from notes and create Rembs. A 'Remb' is the primary unit in Rember - a self-contained atomic note representing a concept the user wants to remember, along with spaced repetition flashcards for testing that concept. Each provided note will be processed into its own Remb with appropriate flashcards. When the user requests to add something to Rember, break it down into atomic and self-contained notes.",
+          description: `
+A tool to generate spaced-repetition flashcards in Rember.
+
+What is Rember?
+Rember is a modern spaced-repetition system based on *rembs*. A remb is a little note about a single concept or idea you want to remember along with a few flashcards testing that concept or idea. In Rember you can create rembs and review their flashcards, just like in Anki or other traditional spaced-repetition systems. Rember also allows exporting rembs to Anki.
+
+When to use this tool?
+Use this tool when the user wants to remember one or more ideas, or the user explicitly asks to add something to Rember. This tools allows users to review over time and internalize new concepts or ideas learned from their conversation with you. Since you can work with pdfs and, given the right tool, with webpages and other resources, you can help users create flashcard about pretty much any kind of resource.
+
+Input:
+A list little notes which will be sent to the Rember API. Rember will turn each note into a remb, by generating flashcards using AI, independently from this conversation with you. Little notes are the natural organizational unit for spaced-repetition flashcards, they allow users to quickly search, organize and interact with flashcards, moreover they makes it easier to generate flashcards with AI by focusing on a single concept or idea at a time.
+
+Output:
+The tool simply signals whether the operation succeded or failed.
+
+Rules:
+- Break the content the user wants to remember into a list of little notes
+- Each note should be atomic and cover a single concept or idea
+- Each note should be self-contained and make sense independently of other notes
+- Each note should be concise and to-the-point
+- Avoid repeating the same information across multiple notes
+- When referencing sources, always use the author or source's proper name (e.g. "Paul Graham suggests..." instead of generic references like "The article suggests..." or "The author suggests...")
+          `,
           schemaInput: {
             notes: z.array(
               z.object({
-                text: z.string()
-                  .max(2000, "Each note must be a maximum of 2000 characters")
-                  .describe("The text content of the note to be converted into flashcards")
-              }).describe("An atomic and self-contained note that will be used to generate a Remb")
+                text: z.string().max(2000).describe("The text content of the note")
+              }).describe("A little note about a concept or idea")
+            ).max(50).describe("A list of little notes"),
+            source: z.string().max(100).optional().describe(
+              "The resource (e.g. article, book, pdf, webpage) the notes are about (e.g. 'Author - Title'). Omit this field unless the notes are about a specific concrete resource."
             )
-              .max(50, "Maximum of 50 notes can be processed at once")
-              .describe("Array of notes to be processed into Rembs")
           },
-          // TODO: Fix inference of `notesZod` type
-          effect: (notesZod) =>
+          // TODO: Fix inference of `input` type
+          effect: (input) =>
             Effect.gen(function*() {
-              const notes = yield* Schema.decodeUnknown(Notes)(notesZod["notes"])
+              const _input = input as { notes: Array<{ text: string }>; source?: string | undefined }
+              const notes = yield* pipe(
+                _input.notes,
+                Array.map(({ text }) => ({ text: _input.source == undefined ? text : `${text}\n\n${_input.source}` })),
+                Schema.decodeUnknown(Notes)
+              )
               yield* rember.generateCardsAndCreateRembs({ notes })
-              return { content: [{ type: "text", text: `Generated cards for ${notes.length} notes.` }] }
+              return { content: [{ type: "text", text: `Generated cards for ${notes.length} rembs.` }] }
             })
         }
       }
