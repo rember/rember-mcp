@@ -2,12 +2,14 @@
 
 The Rember [Model Context Protocol](https://modelcontextprotocol.com/) server allows you to integrate with Rember's spaced repetition system through function calling. This protocol supports tools to interact with Rember to generate flashcards and create rembs.
 
+![Rember MCP Demo](https://raw.githubusercontent.com/rember/rember-mcp/main/assets/rember-mcp-demo.gif)
+
 ## Setup
 
 To run the Rember MCP server using npx, use the following command:
 
 ```
-npx -y @rember/mcp --api-key=YOUR_REMBER_API_KEY
+npx -y @getrember/mcp --api-key=YOUR_REMBER_API_KEY
 ```
 
 Make sure to replace `YOUR_REMBER_API_KEY` with your actual Rember api key, which you can find in your [Settings page](https://rember.com/settings). The API key should follow the format `rember_` followed by 32 random characters.
@@ -21,7 +23,7 @@ Add the following to your `claude_desktop_config.json`. See [here](https://model
   "mcpServers": {
     "rember": {
       "command": "npx",
-      "args": ["-y", "@rember/mcp", "--api-key=YOUR_REMBER_API_KEY"]
+      "args": ["-y", "@getrember/mcp", "--api-key=YOUR_REMBER_API_KEY"]
     }
   }
 }
