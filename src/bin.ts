@@ -31,24 +31,27 @@ const command = Command.make("rember-mcp", { apiKey }, ({ apiKey }) =>
 A tool to generate spaced-repetition flashcards in Rember.
 
 What is Rember?
-Rember is a modern spaced-repetition system based on *rembs*. A remb is a little note about a single concept or idea you want to remember along with a few flashcards testing that concept or idea. In Rember you can create rembs and review their flashcards, just like in Anki or other traditional spaced-repetition systems. Rember also allows exporting rembs to Anki.
+Rember is a modern spaced-repetition system based on *rembs*. A remb is a concise note focused on a single concept or idea you want to remember along with a few flashcards testing that concept or idea. In Rember you can create rembs and review their flashcards, just like in Anki or other traditional spaced-repetition systems. Rember also allows exporting rembs to Anki.
 
 When to use this tool?
 Use this tool when the user wants to remember one or more ideas, or the user explicitly asks to add something to Rember. This tools allows users to review over time and internalize new concepts or ideas learned from their conversation with you. Since you can work with pdfs and, given the right tool, with webpages and other resources, you can help users create flashcard about pretty much any kind of resource.
 
 Input:
-A list little notes which will be sent to the Rember API. Rember will turn each note into a remb, by generating flashcards using AI, independently from this conversation with you. Little notes are the natural organizational unit for spaced-repetition flashcards, they allow users to quickly search, organize and interact with flashcards, moreover they makes it easier to generate flashcards with AI by focusing on a single concept or idea at a time.
+A list of notes which will be sent to the Rember API. Rember will turn each note into a remb, by generating flashcards using AI, independently from this conversation with you. Notes are the natural organizational unit for spaced-repetition flashcards, they allow users to quickly search, organize and interact with flashcards, moreover they makes it easier to generate flashcards with AI by focusing on a single concept or idea at a time.
 
 Output:
 The tool simply signals whether the operation succeded or failed.
 
+Here are 7 rules for writing notes to send to the Rember API.
+
 Rules:
-- Break the content the user wants to remember into a list of little notes
-- Each note should be atomic and cover a single concept or idea
-- Each note should be self-contained and make sense independently of other notes
-- Each note should be concise and to-the-point
-- Avoid repeating the same information across multiple notes
-- When referencing sources, always use the author or source's proper name (e.g. "Paul Graham suggests..." instead of generic references like "The article suggests..." or "The author suggests...")
+1. Break the content the user wants to remember into a list of notes (one concept = one note)
+2. Each note should be atomic and be focused on a single concept or idea
+3. Each note should be self-contained and make sense independently of other notes
+4. Each note should be concise, get to the point and avoid unnecessary details or verbiage
+5. Avoid repeating the same information across multiple notes
+6. Use specific attributions when referencing sources (e.g., "Researcher Name states..." not "The article suggests...")
+7. If the user asks something like "create N flashcards", explain: "I'll help you create notes on the key concepts you want to remember. Rember will automatically generate appropriate flashcards from each note. Would you like me to create notes on this topic instead?".
           `,
           schemaInput: {
             notes: z.array(
