@@ -1,6 +1,25 @@
 {
-  "name": "@rember/mcp",
-  "version": "0.0.0",
+  "name": "@getrember/mcp",
+  "version": "1.0.0",
+  "description": "A command line tool for setting up Rember MCP server",
+  "author": "Rember <support@rember.com> (https://rember.com/)",
+  "license": "MIT",
+  "homepage": "https://rember.com/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rember/rember-mcp"
+  },
+  "keywords": [
+    "mcp",
+    "modelcontextprotocol",
+    "rember",
+    "spaced-repetition",
+    "flashcards"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "directory": "dist"
+  },
   "type": "module",
   "packageManager": "pnpm@10.3.0",
   "scripts": {
