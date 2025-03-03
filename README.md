@@ -2,7 +2,7 @@
 
 The Rember [Model Context Protocol](https://modelcontextprotocol.com/) server allows you to integrate with Rember's spaced repetition system through function calling. This protocol supports tools to interact with Rember to generate flashcards and create rembs.
 
-![Rember MCP Demo](https://raw.githubusercontent.com/rember/rember-mcp/main/assets/rember-mcp-demo.gif)
+![Rember MCP Demo](https://github.com/rember/rember-mcp/blob/main/assets/what-is-active-recall.gif?raw=true)
 
 ## Setup
 
