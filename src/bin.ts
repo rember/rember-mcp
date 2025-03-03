@@ -24,7 +24,7 @@ const command = Command.make("rember-mcp", { apiKey }, ({ apiKey }) =>
 
     const layerServerMCP = ServerMCP.layer({
       name: "rember",
-      version: "1.0.2",
+      version: "1.0.3",
       tools: {
         "generate_cards_and_create_rembs": {
           description: `
@@ -108,7 +108,7 @@ Rules:
 
 export const run = Command.run(command, {
   name: "Rember MCP server",
-  version: "1.0.2"
+  version: "1.0.3"
 })
 
 // #:
