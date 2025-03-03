@@ -33,22 +33,25 @@
     "test": "vitest run",
     "copy-package-json": "tsx scripts/copy-package-json.ts"
   },
-  "devDependencies": {
+  "dependencies": {
     "@effect/cli": "^0.56.4",
-    "@effect/eslint-plugin": "^0.2.0",
-    "@effect/language-service": "^0.2.0",
     "@effect/platform-node": "^0.73.4",
     "@effect/platform": "^0.77.4",
+    "@modelcontextprotocol/sdk": "^1.6.0",
+    "effect": "^3.13.4",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@effect/eslint-plugin": "^0.2.0",
+    "@effect/language-service": "^0.2.0",
     "@effect/vitest": "^0.19.2",
     "@eslint/compat": "1.1.1",
     "@eslint/eslintrc": "3.1.0",
     "@eslint/js": "9.10.0",
-    "@modelcontextprotocol/sdk": "^1.6.0",
     "@modelcontextprotocol/inspector": "^0.4.1",
     "@types/node": "^22.5.2",
     "@typescript-eslint/eslint-plugin": "^8.4.0",
     "@typescript-eslint/parser": "^8.4.0",
-    "effect": "^3.13.4",
     "eslint-import-resolver-typescript": "^3.6.3",
     "eslint-plugin-codegen": "0.28.0",
     "eslint-plugin-deprecation": "^3.0.0",
@@ -59,8 +62,7 @@
     "tsup": "^8.2.4",
     "tsx": "^4.19.1",
     "typescript": "^5.6.2",
-    "vitest": "^2.0.5",
-    "zod": "^3.24.2"
+    "vitest": "^2.0.5"
   },
   "pnpm": {
     "patchedDependencies": {}
