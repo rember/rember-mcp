@@ -31,4 +31,4 @@ Add the following to your `claude_desktop_config.json`. See [here](https://model
 
 ## Available tools
 
-- `generate-cards-and-create-rembs`: This tool takes a list of little notes and turns each into a remb by generating flashcards with AI. A 'Remb' is the primary unit in Rember - a self-contained atomic note representing a concept the user wants to remember, along with spaced repetition flashcards for testing that concept. For example, after learning something new in your chat you can ask the language model to "Add to Rember".
+- `generate_cards_and_create_rembs`: This tool takes a list of little notes and turns each into a remb by generating flashcards with AI. A 'Remb' is the primary unit in Rember - a self-contained atomic note representing a concept the user wants to remember, along with spaced repetition flashcards for testing that concept. For example, after learning something new in your chat you can ask the language model to "Add to Rember".
