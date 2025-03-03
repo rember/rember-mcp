@@ -42,5 +42,87 @@
   "editor.suggestSelection": "recentlyUsed",
   "editor.wordBasedSuggestions": "matchingDocuments",
   "editor.parameterHints.enabled": true,
-  "files.insertFinalNewline": true
+  "files.insertFinalNewline": true,
+
+  // #: Extension: Highlight
+  // https://github.com/fabiospampinato/vscode-highlight
+  // https://code.visualstudio.com/api/references/vscode-api#DecorationRenderOptions
+  "highlight.regexFlags": "gm",
+  "highlight.regexes": {
+    "([^\\w])((?:TODO):)": {
+      "filterFileRegex": ".*(?<!CHANGELOG.md)$",
+      "decorations": [
+        {},
+        {
+          "overviewRulerColor": "#fbbf24",
+          "backgroundColor": "#fbbf24",
+          "borderRadius": "2px",
+          "color": "#1f1f1f",
+          "fontWeight": "bold"
+        }
+      ]
+    },
+    "([^\\w])((?:FIXME|FIX|BUG|HACK|WARN|UGLY|DEBUG|ISSUE):)": {
+      "filterFileRegex": ".*(?<!CHANGELOG.md)$",
+      "decorations": [
+        {},
+        {
+          "overviewRulerColor": "#f87171",
+          "backgroundColor": "#f87171",
+          "color": "#1f1f1f",
+          "fontWeight": "bold"
+        }
+      ]
+    },
+    "([^\\w])((?:IDEA|NOTE|REFS):)": {
+      "filterFileRegex": ".*(?<!CHANGELOG.md)$",
+      "decorations": [
+        {},
+        {
+          "overviewRulerColor": "#4ade80",
+          "backgroundColor": "#4ade80",
+          "borderRadius": "2px",
+          "color": "#1f1f1f",
+          "fontWeight": "bold"
+        }
+      ]
+    },
+    "(?<=^|\\s)(#:)": {
+      "filterLanguageRegex": "^(?!markdown)",
+      "decorations": [
+        {
+          "isWholeLine": true,
+          "fontWeight": "900",
+          "borderStyle": "solid",
+          "borderWidth": "2px 0 0 0",
+          "light": {
+            "overviewRulerColor": "#d4d4d4", // Tailwind Neutral 300
+            "borderColor": "#d4d4d4"
+          },
+          "dark": {
+            "overviewRulerColor": "#525252", // Tailwind Neutral 600
+            "borderColor": "#525252"
+          }
+        }
+      ]
+    },
+    "(?<=^|\\s)(##:)": {
+      "filterLanguageRegex": "^(?!markdown)",
+      "decorations": [
+        {
+          "isWholeLine": true,
+          "borderStyle": "dashed",
+          "borderWidth": "1px 0 0 0",
+          "light": {
+            "overviewRulerColor": "#d4d4d4", // Tailwind Neutral 300
+            "borderColor": "#d4d4d4"
+          },
+          "dark": {
+            "overviewRulerColor": "#525252", // Tailwind Neutral 600
+            "borderColor": "#525252"
+          }
+        }
+      ]
+    }
+  }
 }
