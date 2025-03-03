@@ -12,13 +12,13 @@ import type { z, ZodRawShape, ZodTypeAny } from "zod"
 // TODO: The MCP SDK does not support Standard Schema just yet (which would
 // allow us to use Effect Schema).
 // Track https://github.com/modelcontextprotocol/typescript-sdk/issues/164
-export interface ToolServerMCP<Input extends ZodRawShape, E, R> {
+export interface ToolServerMCP<Input extends ZodRawShape, R> {
   description: string
   schemaInput: Input
-  effect: (args: z.objectOutputType<Input, ZodTypeAny>) => Effect.Effect<CallToolResult, E, R>
+  effect: (args: z.objectOutputType<Input, ZodTypeAny>) => Effect.Effect<CallToolResult, never, R>
 }
 
-export type ToolServerMCPAny = ToolServerMCP<any, any, any>
+export type ToolServerMCPAny = ToolServerMCP<any, any>
 export type ToolsServerMCPAny = ReadonlyRecord<string, ToolServerMCPAny>
 
 // #:

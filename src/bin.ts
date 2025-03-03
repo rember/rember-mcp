@@ -3,7 +3,7 @@
 import { Command, Options } from "@effect/cli"
 import * as NodeContext from "@effect/platform-node/NodeContext"
 import * as NodeRuntime from "@effect/platform-node/NodeRuntime"
-import { Array, Cause, Layer, pipe, Redacted, Schema } from "effect"
+import { Array, Cause, Layer, pipe, Redacted, Schedule, Schema } from "effect"
 import * as Effect from "effect/Effect"
 import { z } from "zod"
 import { layerLogger } from "./Logger.js"
@@ -62,16 +62,38 @@ Rules:
           },
           // TODO: Fix inference of `input` type
           effect: (input) =>
-            Effect.gen(function*() {
-              const _input = input as { notes: Array<{ text: string }>; source?: string | undefined }
-              const notes = yield* pipe(
-                _input.notes,
-                Array.map(({ text }) => ({ text: _input.source == undefined ? text : `${text}\n\n${_input.source}` })),
-                Schema.decodeUnknown(Notes)
+            pipe(
+              Effect.gen(function*() {
+                const _input = input as { notes: Array<{ text: string }>; source?: string | undefined }
+                const notes = yield* pipe(
+                  _input.notes,
+                  Array.map(({ text }) => ({
+                    text: _input.source == undefined ? text : `${text}\n\n${_input.source}`
+                  })),
+                  Schema.decodeUnknown(Notes)
+                )
+                yield* rember.generateCardsAndCreateRembs({ notes })
+                return { content: [{ type: "text" as const, text: `Generated cards for ${notes.length} rembs.` }] }
+              }),
+              // Handle input error
+              Effect.catchTag("ParseError", (_) =>
+                Effect.succeed({
+                  content: [{ type: "text" as const, text: `Invalid input: ${_.message}` }],
+                  isError: true
+                })),
+              // Handle other errors
+              Effect.retry({
+                times: 3,
+                schedule: Schedule.exponential("2 second")
+              }),
+              Effect.timeout("30 seconds"),
+              Effect.catchAll((_) =>
+                Effect.succeed({
+                  content: [{ type: "text" as const, text: _.message }],
+                  isError: true
+                })
               )
-              yield* rember.generateCardsAndCreateRembs({ notes })
-              return { content: [{ type: "text", text: `Generated cards for ${notes.length} rembs.` }] }
-            })
+            )
         }
       }
     })

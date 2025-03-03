@@ -1,7 +1,7 @@
-import { FetchHttpClient, HttpClient, HttpClientRequest } from "@effect/platform"
+import { FetchHttpClient, HttpApi, HttpApiClient, HttpApiEndpoint, HttpApiGroup } from "@effect/platform"
 import { Context, Effect, Layer, pipe, Redacted, Schema } from "effect"
 
-// #:
+// #: Values
 
 /** API keys have a "rember_" prefix followed by 32 random characters */
 export const ApiKey = Schema.String.pipe(
@@ -19,6 +19,50 @@ export type Note = Schema.Schema.Type<typeof Note>
 /** An array of `Note` */
 export const Notes = Schema.Array(Note).pipe(Schema.maxItems(50))
 export type Notes = Schema.Schema.Type<typeof Notes>
+
+// #: Api
+
+// prettier-ignore
+export class ErrorApiKeyInvalid extends Schema.TaggedError<ErrorApiKeyInvalid>()(
+  "Api/ApiKeyInvalid",
+  { message: Schema.String }
+) {}
+
+// prettier-ignore
+export class ErrorReachedLimitRateLimiter extends Schema.TaggedError<ErrorReachedLimitRateLimiter>()(
+  "Api/ReachedLimitRateLimiter",
+  { message: Schema.String }
+) {}
+
+// prettier-ignore
+export class ErrorReachedLimitUsageTracker extends Schema.TaggedError<ErrorReachedLimitUsageTracker>()(
+  "Api/ReachedLimitUsageTracker",
+  { message: Schema.String }
+) {}
+
+const endpointGenerateCardsAndCreateRembs = HttpApiEndpoint.post(
+  "generateCardsAndCreateRembs",
+  "/v1/generate-cards-and-create-rembs"
+)
+  .setPayload(
+    Schema.Struct({
+      version: Schema.Literal("1"),
+      notes: Notes
+    })
+  )
+  .setHeaders(
+    Schema.Struct({
+      "x-api-key": ApiKey,
+      "x-source": Schema.String
+    })
+  )
+  .addError(ErrorApiKeyInvalid, { status: 401 })
+  .addError(ErrorReachedLimitUsageTracker, { status: 403 })
+  .addError(ErrorReachedLimitRateLimiter, { status: 429 })
+
+const groupV1 = HttpApiGroup.make("v1").add(endpointGenerateCardsAndCreateRembs)
+
+const apiRember = HttpApi.make("Rember").add(groupV1).prefix("/api")
 
 // #:
 
@@ -40,22 +84,15 @@ export class Rember extends Context.Tag("Rember")<
 
 export const makeRember = ({ apiKey }: { apiKey: Redacted.Redacted<ApiKey> }) =>
   Effect.gen(function*() {
-    const client = yield* HttpClient.HttpClient
+    const client = yield* HttpApiClient.make(apiRember, { baseUrl: "https://www.rember.com/" })
 
     // ##: generateCards
 
     const generateCardsAndCreateRembs = ({ notes }: { notes: Notes }) =>
-      pipe(
-        HttpClientRequest.post(
-          "https://www.rember.com/api/v1/generate-cards-and-create-rembs"
-        ),
-        HttpClientRequest.setHeader("x-api-key", Redacted.value(apiKey)),
-        HttpClientRequest.setHeader("x-source", "rember-mcp"),
-        HttpClientRequest.bodyJson({ version: "1", notes }),
-        Effect.flatMap(client.execute),
-        // Ensure the request is aborted if the program is interrupted
-        Effect.scoped
-      )
+      client.v1.generateCardsAndCreateRembs({
+        payload: { version: "1", notes },
+        headers: { "x-api-key": Redacted.value(apiKey), "x-source": "rember-mcp" }
+      })
 
     // ##:
 
