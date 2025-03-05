@@ -26,7 +26,7 @@ const command = Command.make("rember-mcp", { apiKey }, ({ apiKey }) =>
       name: "rember",
       version: "1.0.3",
       tools: {
-        "generate_cards_and_create_rembs": {
+        "create_flashcards": {
           description: `
 A tool to generate spaced-repetition flashcards in Rember.
 
