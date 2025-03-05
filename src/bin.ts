@@ -3,7 +3,7 @@
 import { Command, Options } from "@effect/cli"
 import * as NodeContext from "@effect/platform-node/NodeContext"
 import * as NodeRuntime from "@effect/platform-node/NodeRuntime"
-import { Array, Cause, Layer, pipe, Redacted, Schedule, Schema } from "effect"
+import { Array, Cause, ConfigProvider, Layer, Option, pipe, Redacted, Schedule, Schema } from "effect"
 import * as Effect from "effect/Effect"
 import { z } from "zod"
 import { layerLogger } from "./Logger.js"
@@ -15,7 +15,8 @@ import { ServerMCP } from "./ServerMCP.js"
 const apiKey = pipe(
   Options.text("api-key"),
   Options.withSchema(ApiKey),
-  Options.map(Redacted.make)
+  Options.map(Redacted.make),
+  Options.optional
 )
 
 const command = Command.make("rember-mcp", { apiKey }, ({ apiKey }) =>
@@ -104,7 +105,14 @@ Rules:
     // Build the layer and keep the program alive
     yield* Layer.launch(layerServerMCP)
   }).pipe(
-    Effect.provide(Rember.layer({ apiKey }))
+    Effect.provide(Rember.layer()),
+    Effect.provide(
+      pipe(
+        ConfigProvider.fromJson(Option.isSome(apiKey) ? { REMBER_API_KEY: apiKey } : {}),
+        ConfigProvider.orElse(() => ConfigProvider.fromEnv()),
+        (_) => Layer.setConfigProvider(_)
+      )
+    )
   ))
 
 // #:

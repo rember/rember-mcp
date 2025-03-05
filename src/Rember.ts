@@ -1,5 +1,5 @@
 import { FetchHttpClient, HttpApi, HttpApiClient, HttpApiEndpoint, HttpApiGroup } from "@effect/platform"
-import { Context, Effect, Layer, pipe, Redacted, Schema } from "effect"
+import { Config, Context, Effect, Layer, pipe, Schema } from "effect"
 
 // #: Values
 
@@ -68,13 +68,11 @@ const apiRember = HttpApi.make("Rember").add(groupV1).prefix("/api")
 
 export class Rember extends Context.Tag("Rember")<
   Rember,
-  Effect.Effect.Success<ReturnType<typeof makeRember>>
+  Effect.Effect.Success<typeof makeRember>
 >() {
-  static layer(
-    { apiKey }: { apiKey: Redacted.Redacted<ApiKey> }
-  ): Layer.Layer<Rember> {
+  static layer() {
     return pipe(
-      Layer.effect(Rember, makeRember({ apiKey })),
+      Layer.effect(Rember, makeRember),
       Layer.provide(FetchHttpClient.layer)
     )
   }
@@ -82,21 +80,27 @@ export class Rember extends Context.Tag("Rember")<
 
 // #:
 
-export const makeRember = ({ apiKey }: { apiKey: Redacted.Redacted<ApiKey> }) =>
-  Effect.gen(function*() {
-    const client = yield* HttpApiClient.make(apiRember, { baseUrl: "https://www.rember.com/" })
+export const makeRember = Effect.gen(function*() {
+  const client = yield* HttpApiClient.make(apiRember, { baseUrl: "https://www.rember.com/" })
 
-    // ##: generateCards
+  const apiKeyEnc = yield* Config.string("REMBER_API_KEY")
+  const apiKey = yield* pipe(
+    apiKeyEnc,
+    Schema.decodeUnknown(ApiKey),
+    Effect.catchTag("ParseError", () => Effect.dieMessage("Invalid API key"))
+  )
 
-    const generateCardsAndCreateRembs = ({ notes }: { notes: Notes }) =>
-      client.v1.generateCardsAndCreateRembs({
-        payload: { version: "1", notes },
-        headers: { "x-api-key": Redacted.value(apiKey), "x-source": "rember-mcp" }
-      })
+  // ##: generateCards
 
-    // ##:
+  const generateCardsAndCreateRembs = ({ notes }: { notes: Notes }) =>
+    client.v1.generateCardsAndCreateRembs({
+      payload: { version: "1", notes },
+      headers: { "x-api-key": apiKey, "x-source": "rember-mcp" }
+    })
 
-    return {
-      generateCardsAndCreateRembs
-    }
-  })
+  // ##:
+
+  return {
+    generateCardsAndCreateRembs
+  }
+})
