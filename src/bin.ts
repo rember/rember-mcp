@@ -84,8 +84,20 @@ Rules:
                   Schema.decodeUnknown(Notes)
                 )
                 yield* rember.generateCardsAndCreateRembs({ notes })
-                return { content: [{ type: "text" as const, text: `Generated cards for ${notes.length} rembs.` }] }
+                return {
+                  content: [{ type: "text" as const, text: `Generated cards for ${notes.length} rembs.` }]
+                }
               }),
+              // Handle usage limit reached error
+              Effect.catchTag("Api/ReachedLimitUsageTracker", (_) =>
+                Effect.succeed({
+                  content: [{
+                    type: "text" as const,
+                    text:
+                      "You've reached your monthly limit. Visit https://www.rember.com/settings/account to upgrade to Pro and get more rembs."
+                  }],
+                  isError: true
+                })),
               // Handle input error
               Effect.catchTag("ParseError", (_) =>
                 Effect.succeed({
