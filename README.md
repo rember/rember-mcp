@@ -17,7 +17,7 @@ To run the Rember MCP server using `npx`, use the following command:
 npx -y @getrember/mcp --api-key=YOUR_REMBER_API_KEY
 ```
 
-Make sure to replace `YOUR_REMBER_API_KEY` with your actual Rember api key, which you can find in your [Settings page](https://rember.com/settings/account). The API key should follow the format `rember_` followed by 32 random characters.
+Make sure to replace `YOUR_REMBER_API_KEY` with your actual Rember api key, which you can find in your [Settings page](https://rember.com/settings/mcp-api). The API key should follow the format `rember_` followed by 32 random characters.
 
 ### Usage with Claude Desktop
 
