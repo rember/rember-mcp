@@ -38,21 +38,28 @@ When to use this tool?
 Use this tool when the user wants to remember one or more ideas, or the user explicitly asks to add something to Rember. This tools allows users to review over time and internalize new concepts or ideas learned from their conversation with you. Since you can work with pdfs and, given the right tool, with webpages and other resources, you can help users create flashcard about pretty much any kind of resource.
 
 Input:
-A list of notes which will be sent to the Rember API. Rember will turn each note into a remb, by generating flashcards using AI, independently from this conversation with you. Notes are the natural organizational unit for spaced-repetition flashcards, they allow users to quickly search, organize and interact with flashcards, moreover they makes it easier to generate flashcards with AI by focusing on a single concept or idea at a time.
+A list of notes which will be sent to the Rember API. Rember will turn each note into a remb, by generating flashcards using AI, independently from this conversation with you. Rember will often create 4-5 flashcards for each single note. Notes are the natural organizational unit for spaced-repetition flashcards, they allow users to quickly search, organize and interact with flashcards.
 
 Output:
 The tool simply signals whether the operation succeded or failed.
 
-Here are 7 rules for writing notes to send to the Rember API.
+Examples:
+- After asking you a question or chatting with you, the user asks "help me remember this" or "create a few flashcards", you call this tool with one or two notes about the core ideas the user cares about
+- The user asks you to create flashcards for a PDF or webpage, you extract the main points and send a note for each of them to this tool
+- The user might follow up, and ask you to create more flashcards about something specific, you create one or two notes about that
+
+Here are 9 rules for writing notes to send to the Rember API.
 
 Rules:
-1. Break the content the user wants to remember into a list of notes (one concept = one note)
-2. Each note should be atomic and be focused on a single concept or idea
-3. Each note should be self-contained and make sense independently of other notes
-4. Each note should be concise, get to the point and avoid unnecessary details or verbiage
-5. Avoid repeating the same information across multiple notes
-6. Use specific attributions when referencing sources (e.g., "Researcher Name states..." not "The article suggests...")
-7. If the user asks something like "create N flashcards", explain: "I'll help you create notes on the key concepts you want to remember. Rember will automatically generate appropriate flashcards from each note. Would you like me to create notes on this topic instead?".
+1. Prefer summarizing information into a single note
+2. Create many notes only if the user is trying to remember many different concepts or ideas
+3. Focus only on essential concepts or ideas, unless the user explicitly asks about details
+4. Notes should be atomic and mostly focused on a single concept or idea
+5. Notes should be self-contained and make sense independently of other notes
+6. Notes should be concise, get to the point and avoid unnecessary details or verbiage
+7. Avoid repeating the same information across multiple notes
+8. Use specific attributions when referencing sources (e.g., "Researcher Name states..." not "The article suggests...")
+9. If the user asks something like "create N flashcards", explain: "I'll help you create notes on the key concepts you want to remember. Rember will automatically generate appropriate flashcards from each note. Would you like me to create notes on this topic instead?".
           `,
           schemaInput: {
             notes: z.array(
