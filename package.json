@@ -1,6 +1,6 @@
 {
   "name": "@getrember/mcp",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "A command line tool for setting up Rember MCP server",
   "author": "Rember <support@rember.com> (https://rember.com/)",
   "license": "MIT",
