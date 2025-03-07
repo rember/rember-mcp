@@ -127,7 +127,7 @@ Rules:
     Effect.provide(Rember.layer()),
     Effect.provide(
       pipe(
-        ConfigProvider.fromJson(Option.isSome(apiKey) ? { REMBER_API_KEY: apiKey } : {}),
+        ConfigProvider.fromJson(Option.isSome(apiKey) ? { REMBER_API_KEY: Redacted.value(apiKey.value) } : {}),
         ConfigProvider.orElse(() => ConfigProvider.fromEnv()),
         (_) => Layer.setConfigProvider(_)
       )
