@@ -40,9 +40,6 @@ Use this tool when the user wants to remember one or more ideas, or the user exp
 Input:
 A list of notes which will be sent to the Rember API. Rember will turn each note into a remb, by generating flashcards using AI, independently from this conversation with you. Rember will often create 4-5 flashcards for each single note. Notes are the natural organizational unit for spaced-repetition flashcards, they allow users to quickly search, organize and interact with flashcards.
 
-Output:
-The tool simply signals whether the operation succeded or failed.
-
 When to use this tool:
 - The user wants to remember something
 - The user wants to create flashcards
@@ -91,7 +88,11 @@ Rules:
                 )
                 yield* rember.generateCardsAndCreateRembs({ notes })
                 return {
-                  content: [{ type: "text" as const, text: `Generated cards for ${notes.length} rembs.` }]
+                  content: [{
+                    type: "text" as const,
+                    text:
+                      `${notes.length} rembs have been created. The number of created flashcards is unknown, report to the user something like "I've created ${notes.length} rembs in Rember, each remb contains multiple flashcards".`
+                  }]
                 }
               }),
               // Handle usage limit reached error
