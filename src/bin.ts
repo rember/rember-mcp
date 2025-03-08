@@ -43,6 +43,12 @@ A list of notes which will be sent to the Rember API. Rember will turn each note
 Output:
 The tool simply signals whether the operation succeded or failed.
 
+When to use this tool:
+- The user wants to remember something
+- The user wants to create flashcards
+- The user wants to create rembs
+- The user wants to add something to Rember
+
 Examples:
 - After asking you a question or chatting with you, the user asks "help me remember this" or "create a few flashcards", you call this tool with one or two notes about the core ideas the user cares about
 - The user asks you to create flashcards for a PDF or webpage, you extract the main points and send a note for each of them to this tool
