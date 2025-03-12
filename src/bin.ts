@@ -6,9 +6,9 @@ import * as NodeRuntime from "@effect/platform-node/NodeRuntime"
 import { Array, Cause, ConfigProvider, Layer, Option, pipe, Redacted, Schedule, Schema } from "effect"
 import * as Effect from "effect/Effect"
 import { z } from "zod"
-import { layerLogger } from "./Logger.js"
-import { ApiKey, Notes, Rember } from "./Rember.js"
-import { ServerMCP } from "./ServerMCP.js"
+import { layerLogger } from "./logger.js"
+import { ApiKey, Notes, Rember } from "./rember.js"
+import { ServerMCP } from "./server-mcp.js"
 
 // #:
 
