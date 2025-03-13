@@ -28,7 +28,7 @@
     "clean": "rimraf dist/*",
     "check": "tsc -b tsconfig.json",
     "inspector": "mcp-inspector node ./dist/bin.cjs",
-    "lint": "eslint \"**/{src,test,examples,scripts,dtslint}/**/*.{ts,mjs}\"",
+    "lint": "eslint \"**/{src,examples,scripts,dtslint}/**/*.{ts,mjs}\"",
     "lint-fix": "pnpm lint --fix",
     "test": "vitest run",
     "copy-package-json": "tsx scripts/copy-package-json.ts"
@@ -43,6 +43,7 @@
     "zod": "^3.24.2"
   },
   "devDependencies": {
+    "@effect/ai-anthropic": "^0.2.1",
     "@effect/eslint-plugin": "^0.2.0",
     "@effect/language-service": "^0.4.0",
     "@effect/vitest": "^0.19.8",
