@@ -34,6 +34,7 @@
     "copy-package-json": "tsx scripts/copy-package-json.ts"
   },
   "dependencies": {
+    "@effect/ai": "^0.12.1",
     "@effect/cli": "^0.58.1",
     "@effect/platform-node": "^0.75.1",
     "@effect/platform": "^0.79.1",
@@ -42,7 +43,7 @@
     "zod": "^3.24.2"
   },
   "devDependencies": {
-    "@effect/eslint-plugin": "^0.3.0",
+    "@effect/eslint-plugin": "^0.2.0",
     "@effect/language-service": "^0.4.0",
     "@effect/vitest": "^0.19.8",
     "@eslint/compat": "1.1.1",
@@ -50,15 +51,15 @@
     "@eslint/js": "9.10.0",
     "@modelcontextprotocol/inspector": "^0.6.0",
     "@types/node": "^22.13.10",
-    "@typescript-eslint/eslint-plugin": "^8.4.0",
-    "@typescript-eslint/parser": "^8.4.0",
-    "eslint-import-resolver-typescript": "^3.6.3",
+    "@typescript-eslint/eslint-plugin": "^8.26.1",
+    "@typescript-eslint/parser": "^8.26.1",
+    "eslint-import-resolver-typescript": "^3.8.6",
     "eslint-plugin-codegen": "0.28.0",
     "eslint-plugin-deprecation": "^3.0.0",
-    "eslint-plugin-import": "^2.30.0",
+    "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-simple-import-sort": "^12.1.1",
     "eslint-plugin-sort-destructure-keys": "^2.0.0",
-    "eslint": "^9.10.0",
+    "eslint": "^9.22.0",
     "tailwindcss": "^4.0.13",
     "tsup": "^8.4.0",
     "tsx": "^4.19.3",

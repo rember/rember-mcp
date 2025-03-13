@@ -1,4 +1,4 @@
-import { FetchHttpClient, HttpApi, HttpApiClient, HttpApiEndpoint, HttpApiGroup } from "@effect/platform"
+import { HttpApi, HttpApiClient, HttpApiEndpoint, HttpApiGroup } from "@effect/platform"
 import { Config, Context, Effect, Layer, pipe, Schema } from "effect"
 
 // #: Values
@@ -69,14 +69,7 @@ const apiRember = HttpApi.make("Rember").add(groupV1).prefix("/api")
 export class Rember extends Context.Tag("Rember")<
   Rember,
   Effect.Effect.Success<typeof makeRember>
->() {
-  static layer() {
-    return pipe(
-      Layer.effect(Rember, makeRember),
-      Layer.provide(FetchHttpClient.layer)
-    )
-  }
-}
+>() {}
 
 // #:
 
@@ -104,3 +97,7 @@ export const makeRember = Effect.gen(function*() {
     generateCardsAndCreateRembs
   }
 })
+
+// #:
+
+export const layerRember = Layer.effect(Rember, makeRember)
