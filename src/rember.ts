@@ -1,5 +1,5 @@
-import { HttpApi, HttpApiClient, HttpApiEndpoint, HttpApiGroup } from "@effect/platform"
-import { Config, Context, Effect, Layer, pipe, Schema } from "effect"
+import { HttpApi, HttpApiClient, HttpApiEndpoint, HttpApiGroup, HttpClient } from "@effect/platform"
+import { Config, Context, Effect, Layer, pipe, Schedule, Schema } from "effect"
 
 // #: Values
 
@@ -90,7 +90,13 @@ export class Rember extends Context.Tag("Rember")<
 // #:
 
 export const makeRember = Effect.gen(function*() {
-  const client = yield* HttpApiClient.make(apiRember, { baseUrl: "https://www.rember.com/" })
+  const client = yield* HttpApiClient.make(apiRember, {
+    baseUrl: "https://www.rember.com/",
+    transformClient: HttpClient.retryTransient({
+      times: 3,
+      schedule: Schedule.exponential("2 seconds")
+    })
+  })
 
   const apiKeyEnc = yield* Config.string("REMBER_API_KEY")
   const apiKey = yield* pipe(

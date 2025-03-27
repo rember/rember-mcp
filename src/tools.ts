@@ -1,5 +1,5 @@
 import { AiToolkit } from "@effect/ai"
-import { Array, Effect, pipe, Schedule, Schema, String } from "effect"
+import { Array, Effect, pipe, Schema, String } from "effect"
 import { Rember } from "./rember.js"
 import { ErrorToolMCP } from "./server-mcp.js"
 
@@ -116,12 +116,7 @@ export const layerTools = toolkit.implement((handlers) =>
           Effect.succeed(
             "The user reached the monthly limit for their Rember account. Instruct the user to visit https://rember.com/settings/account to upgrade to Rember Pro, which includes 1000 monthly rembs with high-quality AI generated flashcards."
           )),
-        // Other errors
-        Effect.retry({
-          times: 3,
-          schedule: Schedule.exponential("2 second")
-        }),
-        Effect.timeout("30 seconds"),
+        // Handle other errors
         Effect.mapError((error) => new ErrorToolMCP({ message: error.message }))
       ))
   })
