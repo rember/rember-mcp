@@ -38,15 +38,15 @@ Add the following to your `claude_desktop_config.json`. See [here](https://model
 
 - `create_flashcards`: Create flashcards with AI. This tool takes a list of notes from Claude, it calls the Rember API to generate a few flashcards for each note. After learning something new in your chat with Claude, you can ask "help me remember this" or "create a few flashcards" or "add to Rember".
 
-## Best practices for MCP servers
+## Best practices for building MCP servers
 
 Here's a collection of lessons we learned while developing the Rember MCP server:
 
-- Set up logging to `stderr` as early as possible, it's essential for debugging.
-- Create a simple MCP tool first and verify Claude can call it properly.
+- Set up logging to `stderr` as early as possible, it's essential for debugging
+- Create a simple MCP tool first and verify Claude can call it properly
 - Invest time in iterating on the tool description:
 
-  - Include details about your product and its URL. This serves two purposes: it helps Claude use the tool properly and allows Claude to answer user questions about the product.
+  - Include details about your product and its URL. This serves two purposes: it helps Claude use the tool properly and allows Claude to answer user questions about the product
   - Clearly explain what MCP is, in a few instances Claude hallucinated that MCP stands for "Multiple Choice Prompts", yikes
   - Describe the tool inputs thoroughly
   - Explain what happens after Claude calls the tool, we clarify that the input notes array is sent to the Rember API, which generates flashcards for each note
@@ -55,10 +55,10 @@ Here's a collection of lessons we learned while developing the Rember MCP server
   - Include a list of rules to guide Claude in using the tool appropriately
 
 - Use the tool call response strategically, it's not shown directly to users but interpreted by Claude:
-  - On success, the Rember API does not return the number of created flashcards, all Claude knows is the number of created rembs. We specify this to Claude because otherwise it tends to hallucinate the number of created flashcards.
+  - On success, the Rember API does not return the number of created flashcards, all Claude knows is the number of created rembs. We specify this to Claude because otherwise it tends to hallucinate the number of created flashcards
   - For users who've reached their monthly limit, we instruct Claude to inform them about the Rember Pro subscription option with the relevant URL
 - Implement retries for transient errors with suitable timeouts
-- We collected enough edge cases that testing manually on Claude Desktop (our main target MCP client) became cumbersome. We created a suite of unit tests by simulating Claude Desktop behavior by calling the Claude API with the system prompt from claude.ai. In the current iteration, each test simulates a chat with Claude Desktop for manual inspection and includes a few simple assertions.
+- We collected enough edge cases that testing manually on Claude Desktop (our main target MCP client) became cumbersome. We created a suite of unit tests by simulating Claude Desktop behavior by calling the Claude API with the system prompt from claude.ai. In the current iteration, each test simulates a chat with Claude Desktop for manual inspection and includes a few simple assertions
 
 What's missing:
 
