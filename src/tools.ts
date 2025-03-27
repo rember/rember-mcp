@@ -108,8 +108,8 @@ export const layerTools = toolkit.implement((handlers) =>
             notes,
             Array.map(({ text }) => ({ text: source == undefined ? text : `${text}\n\n${source}` }))
           )
-          yield* rember.generateCardsAndCreateRembs({ notes: notesRember })
-          return `${notes.length} rembs have been created. The number of created flashcards is unknown, report to the user something like "I've created ${notes.length} rembs in Rember, each remb contains multiple flashcards. You can review your flashcards at https://rember.com/review".`
+          const { quantity } = yield* rember.generateCardsAndCreateRembs({ notes: notesRember })
+          return `${quantity} rembs have been created. The number of created flashcards is unknown, report to the user something like "I've created ${quantity} rembs in Rember, each remb contains multiple flashcards. You can review your flashcards at https://rember.com/review".`
         }),
         // Handle usage limit reached error
         Effect.catchTag("Api/ReachedLimitUsageTracker", (_) =>

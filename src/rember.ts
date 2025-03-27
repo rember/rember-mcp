@@ -40,6 +40,12 @@ export class ErrorReachedLimitUsageTracker extends Schema.TaggedError<ErrorReach
   { message: Schema.String }
 ) {}
 
+// prettier-ignore
+export class ErrorReachedLimitQuantity extends Schema.TaggedError<ErrorReachedLimitQuantity>()(
+  "Api/ErrorReachedLimitQuantity",
+  { message: Schema.String }
+) {}
+
 const endpointGenerateCardsAndCreateRembs = HttpApiEndpoint.post(
   "generateCardsAndCreateRembs",
   "/v1/generate-cards-and-create-rembs"
@@ -56,7 +62,17 @@ const endpointGenerateCardsAndCreateRembs = HttpApiEndpoint.post(
       "x-source": Schema.String
     })
   )
+  .addSuccess(
+    Schema.Union(
+      Schema.Struct({
+        quantity: Schema.Number,
+        usageMonth: Schema.Number,
+        maxUsageMonth: Schema.Number
+      })
+    )
+  )
   .addError(ErrorApiKeyInvalid, { status: 401 })
+  .addError(ErrorReachedLimitQuantity, { status: 400 })
   .addError(ErrorReachedLimitUsageTracker, { status: 403 })
   .addError(ErrorReachedLimitRateLimiter, { status: 429 })
 
