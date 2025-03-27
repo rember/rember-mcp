@@ -40,7 +40,8 @@ const layerAnthropicClient = AnthropicClient.layerConfig({
 })
 
 const layerRemberSucceed = Layer.succeed(Rember, {
-  generateCardsAndCreateRembs: () => Effect.void
+  generateCardsAndCreateRembs: ({ notes }) =>
+    Effect.succeed({ usageMonth: notes.length, maxUsageMonth: 30, quantity: notes.length })
 })
 
 const layerRemberFailReachedLimitUsageTracker = Layer.succeed(Rember, {
@@ -189,7 +190,7 @@ it.live("Deficit vs Debt", ({ task }) =>
 
 // #: Thesis chapter 2
 
-it.live.only("Thesis chapter 2", ({ task }) =>
+it.live("Thesis chapter 2", ({ task }) =>
   Effect.gen(function*() {
     const fs = yield* FileSystem.FileSystem
     const tools = yield* toolkit
