@@ -111,12 +111,18 @@ export const layerTools = toolkit.implement((handlers) =>
           const { quantity } = yield* rember.generateCardsAndCreateRembs({ notes: notesRember })
           return `${quantity} rembs have been created. The number of created flashcards is unknown, report to the user something like "I've created ${quantity} rembs in Rember, each remb contains multiple flashcards. You can review your flashcards at https://rember.com/review".`
         }),
-        // Handle usage limit reached error
         Effect.catchTag("Api/ReachedLimitUsageTracker", (_) =>
           Effect.succeed(
             "The user reached the monthly limit for their Rember account. Instruct the user to visit https://rember.com/settings/account to upgrade to Rember Pro, which includes 1000 monthly rembs with high-quality AI generated flashcards."
           )),
-        // Handle other errors
+        Effect.catchTag("Api/ErrorReachedLimitQuantity", (_) =>
+          Effect.succeed(
+            "You can send at most 50 notes in a single request to the Rember API"
+          )),
+        Effect.catchTag("Api/ApiKeyInvalid", (_) =>
+          Effect.succeed(
+            "The API key of the user is invalid, instruct the user to visit https://www.rember.com/settings/mcp-api and update the API key in your configs."
+          )),
         Effect.mapError((error) => new ErrorToolMCP({ message: error.message }))
       ))
   })
