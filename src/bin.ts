@@ -26,7 +26,7 @@ const command = Command.make("rember-mcp", { apiKey }, ({ apiKey }) =>
     Effect.flatMap((tools) =>
       Layer.launch(layerServerMCP({
         name: "rember",
-        version: "1.1.1",
+        version: "1.1.2",
         tools
       }))
     ),
@@ -45,7 +45,7 @@ const command = Command.make("rember-mcp", { apiKey }, ({ apiKey }) =>
 
 export const run = Command.run(command, {
   name: "Rember MCP server",
-  version: "1.1.1"
+  version: "1.1.2"
 })
 
 // #:
