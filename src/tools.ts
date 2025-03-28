@@ -56,11 +56,11 @@ export class ToolCreateFlashcards extends Schema.TaggedRequest<ToolCreateFlashca
       |Note that if the user asks about Rember in general, keep things simple and avoid getting into lower level details by e.g. mentioning the Rember API.
       |
       |How to use this tool:
-      |- The user might ask you to create a few flashcards about a topic: create one note for the topic
-      |- After asking you a question the user might say something like "help me remember this": create one note summarizing the answer
-      |- After chatting with you the user might ask for a few flashcards: create one or two notes on the core concepts or insights that emerged in the conversation
-      |- For working with PDFs or webpages: extract the main points as individual notes, make sure you include the 'source' in the tool input
-      |- For follow-up requests about specific topics: create targeted notes on those concepts
+      |- The user might ask you to create a few flashcards about a topic: create one note with only the essential concepts of the topic
+      |- After asking you a question the user might say something like "help me remember this": create one note synthesizing only the key points of the answer
+      |- After chatting with you the user might ask for a few flashcards: create one or two notes capturing only the core insights from the conversation
+      |- For working with PDFs or webpages: extract only the most important points as individual notes, make sure you include the 'source' in the tool input
+      |- For follow-up requests about specific topics: create targeted notes focusing on the essential aspects of those concepts
       |- For working with a complex topic: create notes that break down difficult concepts into manageable chunks
       |
       |What the user might say to use this tool:
@@ -74,15 +74,15 @@ export class ToolCreateFlashcards extends Schema.TaggedRequest<ToolCreateFlashca
       |Here are 10 rules for writing notes to send to the Rember API.
       |
       |Rules:
-      |1. Prefer summarizing information into a single note, keep the number of notes to a minimum
-      |2. Create many notes only if the user is trying to remember many different concepts or ideas
-      |3. Focus only on essential concepts or ideas, unless the user explicitly asks about details
+      |1. ALWAYS synthesize information to its essence, include only essential concepts or ideas by default
+      |2. Keep the number of notes to a minimum, create more than one note only if the user is trying to remember different concepts or ideas
+      |3. Include comprehensive details ONLY when the user explicitly requests them with phrases like "include all details" or "be comprehensive"
       |4. Notes should be atomic and mostly focused on a single concept or idea
       |5. Notes should be self-contained and make sense independently of other notes
       |6. Notes should be concise, get to the point and avoid unnecessary details or verbiage
       |7. Avoid repeating the same information across multiple notes
       |8. Use specific attributions when referencing sources (e.g., "Researcher Name states..." not "The article suggests...")
-      |9. If the user asks something like "create N flashcards", explain: "I'll help you create notes on the key concepts you want to remember. Rember will automatically generate appropriate flashcards from each note. Would you like me to create notes on this topic instead?".
+      |9. If the user asks something like "create N flashcards", explain: "I'll help you create notes on the key concepts you want to remember. Rember will automatically generate multiple flashcards from each note (typically 4-5 per note).".
       |10. Follow any other user indication
       `,
       String.stripMargin,
