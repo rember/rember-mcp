@@ -1,3 +1,5 @@
+[![MseeP.ai Security Assessment Badge](https://mseep.net/pr/rember-rember-mcp-badge.png)](https://mseep.ai/app/rember-rember-mcp)
+
 # Rember MCP
 
 Allow Claude to create flashcards for you with the official [Model Context Protocol (MCP)](https://modelcontextprotocol.com/) for [Rember](https://rember.com/). Rember helps you study and remember anything you care about by scheduling spaced repetition reviews.
