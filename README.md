@@ -1,4 +1,5 @@
 # Rember MCP
+[![Trust Score](https://archestra.ai/mcp-catalog/api/badge/quality/rember/rember-mcp)](https://archestra.ai/mcp-catalog/rember__rember-mcp)
 
 Allow Claude to create flashcards for you with the official [Model Context Protocol (MCP)](https://modelcontextprotocol.com/) for [Rember](https://rember.com/). Rember helps you study and remember anything you care about by scheduling spaced repetition reviews.
 
