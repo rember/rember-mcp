@@ -9,6 +9,10 @@ Features and examples:
 
 ![Rember MCP Demo](https://github.com/rember/rember-mcp/blob/main/assets/what-is-active-recall.gif?raw=true)
 
+## Hosted deployment
+
+A hosted deployment is available on [Fronteir AI](https://fronteir.ai/mcp/rember-rember-mcp).
+
 ## Setup
 
 To run the Rember MCP server using `npx`, use the following command:
